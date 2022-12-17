@@ -1,5 +1,6 @@
 package document;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /** 
@@ -34,9 +35,7 @@ public class BasicDocument extends Document
 	@Override
 	public int getNumWords()
 	{
-		//TODO: Implement this method in week 2 according to the comments above.  
-		// See the Module 2 support videos if you need help.
-	    return 0;
+	    return getWords().size();
 	}
 	
 	/**
@@ -54,9 +53,8 @@ public class BasicDocument extends Document
 	@Override
 	public int getNumSentences()
 	{
-	    //TODO: Implement this method.  See the Module 2 support videos 
-        // if you need help.
-        return 0;
+		List<String> sentences = getTokens("[^.!?]+");
+        return sentences.size();
 	}
 	
 	/**
@@ -76,12 +74,17 @@ public class BasicDocument extends Document
 	@Override
 	public int getNumSyllables()
 	{
-	    //TODO: Implement this method in week 2.  See the Module 2 support videos 
-        // if you need help.  And note that there is no need to use a regular
-		// expression for the syllable counting.  We recommend you implement 
-		// the helper function countSyllables in Document.java using a loop, 
-		// and then call it here on each word.
-        return 0;
+		List<String> words = getWords();
+		int numSyllables = 0;
+		for (String w: words) {
+			numSyllables += countSyllables(w);
+		}
+        return numSyllables;
+	}
+
+	public List<String> getWords() {
+		String pattern = "[a-zA-Z]+";
+		return getTokens(pattern);
 	}
 	
 	
@@ -111,6 +114,12 @@ public class BasicDocument extends Document
 		testCase(new BasicDocument("Sentences?!"), 3, 1, 1);
 		testCase(new BasicDocument("Lorem ipsum dolor sit amet, qui ex choro quodsi moderatius, nam dolores explicari forensibus ad."),
 		         32, 15, 1);
+		testCase(new BasicDocument("a"), 1, 1, 1);
+		testCase(new BasicDocument("of"), 1, 1, 1);
+		testCase(new BasicDocument("be"), 1, 1, 1);
+		testCase(new BasicDocument("Senteeeeeeeeeeeeeeeeences"), 3, 1, 1);
+
+		System.out.println("==============>>>");
 	}
-	
+
 }

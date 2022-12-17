@@ -4,7 +4,9 @@ package document;
  * A class that represents a text document
  * @author UC San Diego Intermediate Programming MOOC team
  */
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -64,10 +66,42 @@ public abstract class Document {
 	 */
 	protected int countSyllables(String word)
 	{
-		// TODO: Implement this method so that you can call it from the 
-	    // getNumSyllables method in BasicDocument (module 2) and 
-	    // EfficientDocument (module 3).
-	    return 0;
+		boolean isLastCharVowel = false;
+		boolean isCurrentCharVowel = false;
+
+		int numSyllables = 0;
+		for (int i = 0; i < word.length(); i++) {
+			isCurrentCharVowel = false;
+			char c = word.charAt(i);
+			if (isVowel(c)) {
+				isCurrentCharVowel = true;
+				if (!isLastCharVowel) {
+					numSyllables++;
+				}
+			}
+			isLastCharVowel = isCurrentCharVowel;
+		}
+
+		boolean endsWithE = word.endsWith("e");
+
+		boolean isSecondToLastCharVowel = false;
+		if (word.length() > 2) {
+			int secondToLastIndex = word.length() - 2;
+			char secondToLastChar = word.charAt(secondToLastIndex);
+			isSecondToLastCharVowel = isVowel(secondToLastChar);
+		}
+
+		if (endsWithE && numSyllables > 1 && !isSecondToLastCharVowel) {
+			numSyllables--;
+		}
+
+
+	    return numSyllables;
+	}
+
+	private boolean isVowel(char c) {
+		String vowels = "aeiouyAEIOUY";
+		return vowels.indexOf(c) != -1;
 	}
 	
 	/** A method for testing
@@ -117,7 +151,7 @@ public abstract class Document {
 	
 	/** Return the number of sentences in this document */
 	public abstract int getNumSentences();
-	
+
 	/** Return the number of syllables in this document */
 	public abstract int getNumSyllables();
 	
@@ -130,9 +164,18 @@ public abstract class Document {
 	/** return the Flesch readability score of this document */
 	public double getFleschScore()
 	{
-	    // TODO: You will play with this method in week 1, and 
-		// then implement it in week 2
-	    return 0.0;
+		int totalWords = getNumWords();
+		int totalSentences = getNumSentences();
+		int totalSyllables = getNumSyllables();
+
+		System.out.println("words: " + totalWords);
+		System.out.println("sentences: " + totalSentences);
+		System.out.println("syllables: " + totalSyllables);
+
+
+	    return 206.835 -
+				( ( ( 1.015 * totalWords ) / totalSentences ) ) -
+				( ( 84.6 * totalSyllables ) / totalWords );
 	}
 	
 	
