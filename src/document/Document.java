@@ -168,11 +168,6 @@ public abstract class Document {
 		int totalSentences = getNumSentences();
 		int totalSyllables = getNumSyllables();
 
-		System.out.println("words: " + totalWords);
-		System.out.println("sentences: " + totalSentences);
-		System.out.println("syllables: " + totalSyllables);
-
-
 	    return 206.835 -
 				( ( ( 1.015 * totalWords ) / totalSentences ) ) -
 				( ( 84.6 * totalSyllables ) / totalWords );

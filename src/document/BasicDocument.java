@@ -118,8 +118,6 @@ public class BasicDocument extends Document
 		testCase(new BasicDocument("of"), 1, 1, 1);
 		testCase(new BasicDocument("be"), 1, 1, 1);
 		testCase(new BasicDocument("Senteeeeeeeeeeeeeeeeences"), 3, 1, 1);
-
-		System.out.println("==============>>>");
 	}
 
 }

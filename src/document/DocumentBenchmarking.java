@@ -17,7 +17,8 @@ public class DocumentBenchmarking {
 
 	    // Run each test more than once to get bigger numbers and less noise.
 	    // You can try playing around with this number.
-	    int trials = 100;
+//		int trials = 100;
+	    int trials = 10000;
 
 	    // The text to test on
 	    String textfile = "data/warAndPeace.txt";
@@ -25,22 +26,47 @@ public class DocumentBenchmarking {
 	    // The amount of characters to increment each step
 	    // You can play around with this
 		int increment = 20000;
+//		int increment = ;
 
 		// The number of steps to run.  
 		// You can play around with this.
-		int numSteps = 20;
-		
+//		int numSteps = 20;
+//		int numSteps = 100;
+		int numSteps = 150;
+
 		// THe number of characters to start with. 
 		// You can play around with this.
 		int start = 50000;
-		
+//		int start = 100000;
+
 		// TODO: Fill in the rest of this method so that it runs two loops
 		// and prints out timing results as described in the assignment 
 		// instructions and following the pseudocode below.
-		for (int numToCheck = start; numToCheck < numSteps*increment + start; 
+		long startTime;
+		long endTime;
+		long basicDucumentDuration;
+		long efficientDocumentDuration;
+		System.out.println("numToCheck / 1000\tBasicDocument (ms)\tEfficientDocument (ms)");
+		for (int numToCheck = start; numToCheck < numSteps*increment + start;
 				numToCheck += increment)
 		{
-			// numToCheck holds the number of characters that you should read from the 
+			startTime = System.nanoTime();
+			BasicDocument basicDocument = new BasicDocument(getStringFromFile("data/WarAndPeace.txt", numToCheck));
+			basicDocument.getFleschScore();
+			endTime = System.nanoTime();
+			basicDucumentDuration = (endTime - startTime) / 1000000;
+
+			startTime = System.nanoTime();
+			EfficientDocument efficientDocument = new EfficientDocument(getStringFromFile("data/WarAndPeace.txt", numToCheck));
+			efficientDocument.getFleschScore();
+			endTime = System.nanoTime();
+			efficientDocumentDuration = (endTime - startTime) / 1000000;
+
+
+			System.out.println(numToCheck/1000 + "\t" + basicDucumentDuration + "\t" + efficientDocumentDuration);
+
+
+			// numToCheck holds the number of characters that you should read from the
 			// file to create both a BasicDocument and an EfficientDocument.  
 			
 			/* Each time through this loop you should:
@@ -57,8 +83,7 @@ public class DocumentBenchmarking {
 			 *     b. Calls fleshScore on this document
 			 * 6. Print out the time it took to complete the loop in step 5 
 			 *      (on the same line as the first print statement) followed by a newline (\n) 
-			 */  
-			 
+			 */
 		}
 	
 	}
